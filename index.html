@@ -6,7 +6,8 @@
 -->
 <head>
 
-<meta name="viewport" content="maximum-scale=1.0" />
+<!--<meta name="viewport" content="maximum-scale=1.0" />-->
+<meta name="viewport" content="width=device-width, initial-scale=0.5, user-scalable=no">
 
 <style>
 
@@ -62,6 +63,33 @@ importstr = "O O . . . . . .O O . . . . . .O O * * * * . .O O * x x x x .. . * x
 
   var steps = "";
 
+
+// preload image
+
+<!--//--><![CDATA[//><!--
+
+  var images = new Array()
+
+
+  // var jsPathSwipe = "js\swiped-events.js"
+
+  function preload() {
+    for (i = 0; i < preload.arguments.length; i++) {
+      images[i] = new Image()
+      images[i].src = preload.arguments[i]
+    }
+  }
+
+  preload(
+    imgpath+pixel+"/space.png",
+    imgpath+pixel+"/o.png",
+    imgpath+pixel+"/on.png",
+    imgpath+pixel+"/x.png",
+    imgpath+pixel+"/xx.png",
+    imgpath+pixel+"/wall.png"
+  );
+
+    //--><!]]>
 
 
 /// keyboard listen
