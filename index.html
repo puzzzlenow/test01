@@ -132,6 +132,16 @@ alert(importstr.charAt(10));
 
 function initial(){
 
+  document.getElementById("div-may-hide-01").style.visibility = "hidden";
+
+//  document.getElementById("area01").style.visibility = "hidden";
+//  document.getElementById("areaBest").style.visibility = "hidden";
+//  document.getElementById("areaMoves").style.visibility = "hidden";
+//  document.getElementById("areaSteps").style.visibility = "hidden";
+
+
+
+
   document.getElementById("area01").innerHTML = "Hello JavaScript!";
 
   //document.getElementById("glass01").onmouseover = "";
@@ -704,6 +714,8 @@ function clearAll(){
   </tr>
 </table>
 
+<div id="div-may-hide-01">
+
 <!--
 <input type="text" id="clickandtype" width="1" size="1" value="" autofocus="autofocus" onkeydown="this.value='';" >
 -->
@@ -758,6 +770,8 @@ steps: <a id="areaSteps">.</a>
 
 <br>
 
+
+
 <a id="area01">xxxx</a>
 <br>
 <input type="text" id="area51" value="" onfocus="this.select();">
@@ -778,6 +792,8 @@ steps: <a id="areaSteps">.</a>
 
 <input type="hidden" id="4x" value="7">
 <input type="hidden" id="4y" value="2">
+
+</div>
 
 </body>
 
