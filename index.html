@@ -10,6 +10,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=0.5, user-scalable=no">
 
 <style>
+.button{
+    height:60px;
+    width:60px;
+  Transition: background-color 0.1s ease-out;
+  -webkit-filter: url("#filter");
+  filter: url("#filter");
+  style.background:rgb(220, 220, 220);
+}
 
 html, body {
   overflow-x: hidden;
@@ -42,6 +50,20 @@ tr, td {
 <script type="text/javascript">
 
 
+  var preset = {
+	div1vis: "hidden",
+	div2vis: "hidden"
+  }
+
+  var rgb_space  = "rgb(125, 125, 125)";
+  var rgb_off   = "rgb(220, 220, 220)";
+  var rgb_on   = "rgb(130, 240, 255)";
+  var rgb_dest = "rgb(155, 155, 155)";
+  var rgb_wall = "rgb(60, 60, 60)";
+  var rgb_done = "rgb(255, 255, 80)";
+  
+  
+  
   var importstr = "";
 
 importstr = "O O . . . . . .O O . . . . . .O O * * * * . .O O * x x x x .. . * x x x x .. . * . * * * .. . * . . . . .. . * . . . . .";
@@ -185,8 +207,11 @@ alert(importstr.charAt(10));
 
 function initial(){
 
-  document.getElementById("div-may-hide-01").style.visibility = "hidden";
-  document.getElementById("div-may-hide-02").style.visibility = "hidden";
+  document.getElementById("div-may-hide-01").style.visibility = preset.div1vis;
+  document.getElementById("div-may-hide-02").style.visibility = preset.div2vis;
+
+
+
 
 //  document.getElementById("area01").style.visibility = "hidden";
 //  document.getElementById("areaBest").style.visibility = "hidden";
@@ -199,7 +224,7 @@ function initial(){
   document.getElementById("area01").innerHTML = "Hello JavaScript!";
 
   //document.getElementById("glass01").onmouseover = "";
-  document.getElementById("glass01").style.cursor = "pointer";
+  document.getElementById("bx00").style.cursor = "pointer";
  
   if (editmode == 1){
     edittime++;
@@ -209,7 +234,8 @@ function initial(){
 
     for(var x=0; x <=7; x++){
       for(var y=0; y <=7; y++){
-        document.getElementById("glass" +x +y).style.cursor = "pointer";
+        //document.getElementById("glass" +x +y).style.cursor = "pointer";
+		document.getElementById("bx" +x +y).style.cursor = "pointer";
       }
     }
 
@@ -281,7 +307,9 @@ function initial(){
       if (itemsF[x][y] == "x"  && items[x][y].toUpperCase() == "O") {
         items[x][y]= "o";
       }
-      document.getElementById("glass" +x +y).src = srcPathOut(x,y);
+      //document.getElementById("glass" +x +y).src = srcPathOut(x,y);
+	  //CHANGE COLOR
+	  document.getElementById("bx" +x +y).style.background = srcPathOut(x,y);
     }
   }
 
@@ -303,7 +331,9 @@ function initial(){
       for(var y=0; y <=7; y++){
         if (itemsF[x][y] == "x") {
           items[x][y] = "xx";
-          document.getElementById("glass" +x +y).src = srcPathOut(x,y);
+          //document.getElementById("glass" +x +y).src = srcPathOut(x,y);
+		  //CHANGE COLOR
+          document.getElementById("bx" +x +y).style.background = srcPathOut(x,y);
         }
       }
     }
@@ -596,6 +626,7 @@ function autorun(steps){
 }
 */
 
+/*
 function srcPathOut(x,y) {
   var type = items[x][y];
   //alert(type);
@@ -616,14 +647,41 @@ function srcPathOut(x,y) {
     return imgpath+pixel+"/xx.png";
   }
 }
+*/
 
+//CHANGE COLOR
+function srcPathOut(x,y) {
+  var type = items[x][y];
+  //alert(type);
+  
+  if (type == ".") {
+//space -------------
+    return rgb_space;
+  }else if (type == "O") {
+//off -------------
+    return rgb_off;
+  }else if (type == "o") {
+//on -------------
+    return rgb_on;
+  }else if (type == "x") {
+//dest -------------
+    return rgb_dest;
+  }else if (type == "*") {
+//wall -------------
+    return rgb_wall;
+  }else {
+//done -------------
+    return rgb_done;
+  }
+}
 
 function changePixel() {
   pixel = (Math.pow(((Math.pow(pixel,0.5) - 6) * -1) + 6,2));
   initial();
 }
 
-function edit(id_in){
+//edit(
+function clicked(id_in){
   if (editmode == 1){
 
     var x = id_in.charAt(5);
@@ -687,84 +745,84 @@ function clearAll(){
 
 <table style="width:px" border="0" cellspacing="0" cellpadding="0" >
   <tr>
-    <td><img id="glass00" src="" onclick="edit(this.id);"></td>
-    <td><img id="glass01" src="" onclick="edit(this.id);"></td>
-    <td><img id="glass02" src="" onclick="edit(this.id);"></td>
-    <td><img id="glass03" src="" onclick="edit(this.id);"></td>
-    <td><img id="glass04" src="" onclick="edit(this.id);"></td>
-    <td><img id="glass05" src="" onclick="edit(this.id);"></td>
-    <td><img id="glass06" src="" onclick="edit(this.id);"></td>
-    <td><img id="glass07" src="" onclick="edit(this.id);"></td>
+    <td><button class="button" id="bx00" onclick="clicked(this.id)"></button></td>
+	<td><button class="button" id="bx01" onclick="clicked(this.id)"></button></td>
+	<td><button class="button" id="bx02" onclick="clicked(this.id)"></button></td>
+	<td><button class="button" id="bx03" onclick="clicked(this.id)"></button></td>
+	<td><button class="button" id="bx04" onclick="clicked(this.id)"></button></td>
+	<td><button class="button" id="bx05" onclick="clicked(this.id)"></button></td>
+	<td><button class="button" id="bx06" onclick="clicked(this.id)"></button></td>
+	<td><button class="button" id="bx07" onclick="clicked(this.id)"></button></td>
   </tr>
   <tr>
-    <td><img id="glass10" src="" onclick="edit(this.id);"></td>
-    <td><img id="glass11" src="" onclick="edit(this.id);"></td>
-    <td><img id="glass12" src="" onclick="edit(this.id);"></td>
-    <td><img id="glass13" src="" onclick="edit(this.id);"></td>
-    <td><img id="glass14" src="" onclick="edit(this.id);"></td>
-    <td><img id="glass15" src="" onclick="edit(this.id);"></td>
-    <td><img id="glass16" src="" onclick="edit(this.id);"></td>
-    <td><img id="glass17" src="" onclick="edit(this.id);"></td>
+    <td><button class="button" id="bx10" onclick="clicked(this.id)"></button></td>
+	<td><button class="button" id="bx11" onclick="clicked(this.id)"></button></td>
+	<td><button class="button" id="bx12" onclick="clicked(this.id)"></button></td>
+	<td><button class="button" id="bx13" onclick="clicked(this.id)"></button></td>
+	<td><button class="button" id="bx14" onclick="clicked(this.id)"></button></td>
+	<td><button class="button" id="bx15" onclick="clicked(this.id)"></button></td>
+	<td><button class="button" id="bx16" onclick="clicked(this.id)"></button></td>
+	<td><button class="button" id="bx17" onclick="clicked(this.id)"></button></td>
   </tr>
   <tr>
-    <td><img id="glass20" src="" onclick="edit(this.id);"></td>
-    <td><img id="glass21" src="" onclick="edit(this.id);"></td>
-    <td><img id="glass22" src="" onclick="edit(this.id);"></td>
-    <td><img id="glass23" src="" onclick="edit(this.id);"></td>
-    <td><img id="glass24" src="" onclick="edit(this.id);"></td>
-    <td><img id="glass25" src="" onclick="edit(this.id);"></td>
-    <td><img id="glass26" src="" onclick="edit(this.id);"></td>
-    <td><img id="glass27" src="" onclick="edit(this.id);"></td>
+    <td><button class="button" id="bx20" onclick="clicked(this.id)"></button></td>
+	<td><button class="button" id="bx21" onclick="clicked(this.id)"></button></td>
+	<td><button class="button" id="bx22" onclick="clicked(this.id)"></button></td>
+	<td><button class="button" id="bx23" onclick="clicked(this.id)"></button></td>
+	<td><button class="button" id="bx24" onclick="clicked(this.id)"></button></td>
+	<td><button class="button" id="bx25" onclick="clicked(this.id)"></button></td>
+	<td><button class="button" id="bx26" onclick="clicked(this.id)"></button></td>
+	<td><button class="button" id="bx27" onclick="clicked(this.id)"></button></td>
   </tr>
   <tr>
-    <td><img id="glass30" src="" onclick="edit(this.id);"></td>
-    <td><img id="glass31" src="" onclick="edit(this.id);"></td>
-    <td><img id="glass32" src="" onclick="edit(this.id);"></td>
-    <td><img id="glass33" src="" onclick="edit(this.id);"></td>
-    <td><img id="glass34" src="" onclick="edit(this.id);"></td>
-    <td><img id="glass35" src="" onclick="edit(this.id);"></td>
-    <td><img id="glass36" src="" onclick="edit(this.id);"></td>
-    <td><img id="glass37" src="" onclick="edit(this.id);"></td>
+    <td><button class="button" id="bx30" onclick="clicked(this.id)"></button></td>
+	<td><button class="button" id="bx31" onclick="clicked(this.id)"></button></td>
+	<td><button class="button" id="bx32" onclick="clicked(this.id)"></button></td>
+	<td><button class="button" id="bx33" onclick="clicked(this.id)"></button></td>
+	<td><button class="button" id="bx34" onclick="clicked(this.id)"></button></td>
+	<td><button class="button" id="bx35" onclick="clicked(this.id)"></button></td>
+	<td><button class="button" id="bx36" onclick="clicked(this.id)"></button></td>
+	<td><button class="button" id="bx37" onclick="clicked(this.id)"></button></td>
   </tr>
   <tr>
-    <td><img id="glass40" src="" onclick="edit(this.id);"></td>
-    <td><img id="glass41" src="" onclick="edit(this.id);"></td>
-    <td><img id="glass42" src="" onclick="edit(this.id);"></td>
-    <td><img id="glass43" src="" onclick="edit(this.id);"></td>
-    <td><img id="glass44" src="" onclick="edit(this.id);"></td>
-    <td><img id="glass45" src="" onclick="edit(this.id);"></td>
-    <td><img id="glass46" src="" onclick="edit(this.id);"></td>
-    <td><img id="glass47" src="" onclick="edit(this.id);"></td>
+    <td><button class="button" id="bx40" onclick="clicked(this.id)"></button></td>
+	<td><button class="button" id="bx41" onclick="clicked(this.id)"></button></td>
+	<td><button class="button" id="bx42" onclick="clicked(this.id)"></button></td>
+	<td><button class="button" id="bx43" onclick="clicked(this.id)"></button></td>
+	<td><button class="button" id="bx44" onclick="clicked(this.id)"></button></td>
+	<td><button class="button" id="bx45" onclick="clicked(this.id)"></button></td>
+	<td><button class="button" id="bx46" onclick="clicked(this.id)"></button></td>
+	<td><button class="button" id="bx47" onclick="clicked(this.id)"></button></td>
   </tr>
   <tr>
-    <td><img id="glass50" src="" onclick="edit(this.id);"></td>
-    <td><img id="glass51" src="" onclick="edit(this.id);"></td>
-    <td><img id="glass52" src="" onclick="edit(this.id);"></td>
-    <td><img id="glass53" src="" onclick="edit(this.id);"></td>
-    <td><img id="glass54" src="" onclick="edit(this.id);"></td>
-    <td><img id="glass55" src="" onclick="edit(this.id);"></td>
-    <td><img id="glass56" src="" onclick="edit(this.id);"></td>
-    <td><img id="glass57" src="" onclick="edit(this.id);"></td>
+    <td><button class="button" id="bx50" onclick="clicked(this.id)"></button></td>
+	<td><button class="button" id="bx51" onclick="clicked(this.id)"></button></td>
+	<td><button class="button" id="bx52" onclick="clicked(this.id)"></button></td>
+	<td><button class="button" id="bx53" onclick="clicked(this.id)"></button></td>
+	<td><button class="button" id="bx54" onclick="clicked(this.id)"></button></td>
+	<td><button class="button" id="bx55" onclick="clicked(this.id)"></button></td>
+	<td><button class="button" id="bx56" onclick="clicked(this.id)"></button></td>
+	<td><button class="button" id="bx57" onclick="clicked(this.id)"></button></td>
   </tr>
   <tr>
-    <td><img id="glass60" src="" onclick="edit(this.id);"></td>
-    <td><img id="glass61" src="" onclick="edit(this.id);"></td>
-    <td><img id="glass62" src="" onclick="edit(this.id);"></td>
-    <td><img id="glass63" src="" onclick="edit(this.id);"></td>
-    <td><img id="glass64" src="" onclick="edit(this.id);"></td>
-    <td><img id="glass65" src="" onclick="edit(this.id);"></td>
-    <td><img id="glass66" src="" onclick="edit(this.id);"></td>
-    <td><img id="glass67" src="" onclick="edit(this.id);"></td>
+    <td><button class="button" id="bx60" onclick="clicked(this.id)"></button></td>
+	<td><button class="button" id="bx61" onclick="clicked(this.id)"></button></td>
+	<td><button class="button" id="bx62" onclick="clicked(this.id)"></button></td>
+	<td><button class="button" id="bx63" onclick="clicked(this.id)"></button></td>
+	<td><button class="button" id="bx64" onclick="clicked(this.id)"></button></td>
+	<td><button class="button" id="bx65" onclick="clicked(this.id)"></button></td>
+	<td><button class="button" id="bx66" onclick="clicked(this.id)"></button></td>
+	<td><button class="button" id="bx67" onclick="clicked(this.id)"></button></td>
   </tr>
   <tr>
-    <td><img id="glass70" src="" onclick="edit(this.id);"></td>
-    <td><img id="glass71" src="" onclick="edit(this.id);"></td>
-    <td><img id="glass72" src="" onclick="edit(this.id);"></td>
-    <td><img id="glass73" src="" onclick="edit(this.id);"></td>
-    <td><img id="glass74" src="" onclick="edit(this.id);"></td>
-    <td><img id="glass75" src="" onclick="edit(this.id);"></td>
-    <td><img id="glass76" src="" onclick="edit(this.id);"></td>
-    <td><img id="glass77" src="" onclick="edit(this.id);"></td>
+    <td><button class="button" id="bx70" onclick="clicked(this.id)"></button></td>
+	<td><button class="button" id="bx71" onclick="clicked(this.id)"></button></td>
+	<td><button class="button" id="bx72" onclick="clicked(this.id)"></button></td>
+	<td><button class="button" id="bx73" onclick="clicked(this.id)"></button></td>
+	<td><button class="button" id="bx74" onclick="clicked(this.id)"></button></td>
+	<td><button class="button" id="bx75" onclick="clicked(this.id)"></button></td>
+	<td><button class="button" id="bx76" onclick="clicked(this.id)"></button></td>
+	<td><button class="button" id="bx77" onclick="clicked(this.id)"></button></td>
   </tr>
 </table>
 
