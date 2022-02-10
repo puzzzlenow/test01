@@ -67,7 +67,7 @@
 ·▀▀▀▀  ▀█▄▀▪▀▀▀▀▀•   ▀ • 
 -->
 
-<body onload="initialF();initial();reset();initial();">
+<body onload="initAll();">
 
 <table style="width:px" border="0" cellspacing="0" cellpadding="0" >
   <tr>
@@ -169,9 +169,9 @@ Steps: <a id="areaSteps">.</a>
 <br>
 <table style="width:px" cellspacing="0" cellpadding="0" >
   <tr>
-    <td><button style="height:18px; font-size: 70%" type="button" id="btnReset" onclick="initialF();initial();reset();initial();">(R)eset</button></td>
+    <td><button style="height:18px; font-size: 70%" type="button" id="btnReset" onclick="initAll();">(R)eset</button></td>
     <td>&nbsp&nbsp</td>
-    <td>  <select class="custom-select" id="selectLevel" onchange="selectChanged();initialF();initial();reset();initial();" ><option>Choose a number</option></select>  </td>
+    <td>  <select class="custom-select" id="selectLevel" onchange="selectChanged();initAll();" ><option>Choose a number</option></select>  </td>
     <td></td>
     <td></td>
   </tr>

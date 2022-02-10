@@ -356,6 +356,10 @@ function clearAll(){
 
 }
 
+function initAll(){
+	initialF();initial();reset();initial();
+	document.getElementById("btnReset").focus();
+}
 
 
 function selectChanged() {
