@@ -160,7 +160,8 @@ function initial(){
 
     for(var i = 0; i < levels.length; i++) {
       var value = levels[i];
-	  var txt = i + " - " + value;
+	  var txt = "Level " + i + " ";
+	  //var txt = i + " - " + value;
       var elem = document.createElement("option");
 	  
       elem.textContent = txt;

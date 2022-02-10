@@ -1,6 +1,6 @@
 .button{
-    height:60px;
-    width:60px;
+    height:75px;
+    width:75px;
   Transition: background-color 0.1s ease-out;
   -webkit-filter: url("#filter");
   filter: url("#filter");
