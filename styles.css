@@ -1,0 +1,54 @@
+.button{
+    height:60px;
+    width:60px;
+  Transition: background-color 0.1s ease-out;
+  -webkit-filter: url("#filter");
+  filter: url("#filter");
+  style.background:rgb(220, 220, 220);
+  
+  //background-image: -webkit-gradient(linear, 0% 0%, 0% 90%, from(rgba(28, 91, 155, 0.8)), to(rgba(108, 191, 255, .9)));
+  //border-top-color: #8ba2c1;
+  //border-right-color: #5890bf;
+  //border-bottom-color: #4f93ca;
+  //border-left-color: #768fa5;	
+  
+  //-webkit-box-shadow: rgba(66, 140, 240, 0.5) 0px 10px 16px;
+  //-moz-box-shadow: rgba(66, 140, 240, 0.5) 0px 10px 16px; /* FF 3.5+ */
+}
+
+
+
+
+html, body {
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
+body {
+  position: fixed;
+}
+
+body { font-family:courier; background-color:lightgray}
+a   { font-family:courier; }
+p    { font-family:courier; color:green}
+
+
+table {
+    padding: 0 0px 0 0px;
+}
+
+tr, td {
+    padding: 0;
+}
+
+.custom-select {
+  position: relative;
+  font-family: courier;
+}
+
+.custom-select select {
+  display: none; /*hide original SELECT element: */
+}
+
+.select-selected {
+  background-color: DodgerBlue;
+}

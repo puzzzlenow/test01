@@ -6,52 +6,20 @@
 -->
 <head>
 
-<!--<meta name="viewport" content="maximum-scale=1.0" />-->
 <meta name="viewport" content="width=device-width, initial-scale=0.5, user-scalable=no">
 
-<style>
-.button{
-    height:60px;
-    width:60px;
-  Transition: background-color 0.1s ease-out;
-  -webkit-filter: url("#filter");
-  filter: url("#filter");
-  style.background:rgb(220, 220, 220);
-}
-
-html, body {
-  overflow-x: hidden;
-  overflow-y: hidden;
-}
-body {
-  position: fixed;
-}
-
-body { font-family:courier; background-color:lightgray}
-a   { font-family:courier; }
-p    { font-family:courier; color:green}
-
-
-table {
-    padding: 0 0px 0 0px;
-}
-
-tr, td {
-    padding: 0;
-}
-
-
-</style>
-
-<script src="js\swiped-events.js"></script>
-
+<link rel="stylesheet" href="styles.css">
+<script src="js/moves.js"></script>
+<script src="js/swiped-events.js"></script>
 <script src="js/keyboard-listen.js"></script>
-
+<script src="js/gamelevels.js"></script>
+<script src="js/core.js"></script>
 <script type="text/javascript">
 
+//hidden/visible
 
   var preset = {
-	div1vis: "hidden",
+	div1vis: "visible",
 	div2vis: "hidden"
   }
 
@@ -62,21 +30,13 @@ tr, td {
   var rgb_wall = "rgb(60, 60, 60)";
   var rgb_done = "rgb(255, 255, 80)";
   
-  
-  
   var importstr = "";
-
-importstr = "O O . . . . . .O O . . . . . .O O * * * * . .O O * x x x x .. . * x x x x .. . * . * * * .. . * . . . . .. . * . . . . .";
-
-
-
-  var imgpath = "";
-  imgpath = "./img/"
+  importstr = "OO......OO......OO****..OO*xxxx...*xxxx...*.***...*.......*.....";
 
   var items = matrix( 8, 8, ".");
   var itemsF = matrix( 8, 8, ".");
   var itemsB = matrix( 8, 8, ".");
-  var itemsR = matrix( 8, 8, ".");
+  var itemsA ="";
 
   var freeze = 0;
   var pixel = "49";
@@ -84,648 +44,14 @@ importstr = "O O . . . . . .O O . . . . . .O O * * * * . .O O * x x x x .. . * x
   var edittime = 0;
 
   var steps = "";
-
-
-// preload image
-
-<!--//--><![CDATA[//><!--
-
-  var images = new Array()
-
-
-  // var jsPathSwipe = "js\swiped-events.js"
-
-  function preload() {
-    for (i = 0; i < preload.arguments.length; i++) {
-      images[i] = new Image()
-      images[i].src = preload.arguments[i]
-    }
-  }
-
-  preload(
-    imgpath+pixel+"/space.png",
-    imgpath+pixel+"/o.png",
-    imgpath+pixel+"/on.png",
-    imgpath+pixel+"/x.png",
-    imgpath+pixel+"/xx.png",
-    imgpath+pixel+"/wall.png"
-  );
-
-    //--><!]]>
-
-
-/// keyboard listen
-
-
-
-
-function initialR(){
-
-  if (editmode == 1) { 
-    editmode= -1*(editmode-1); 
-    initial();
-  }
-
-  if (edittime > 0){
-    //clean
-    for(var x=0; x <=7; x++){
-      for(var y=0; y <=7; y++){
-        items[x][y]=".";
-        itemsB[x][y]=".";
-        itemsF[x][y]=".";
-      }
-    }
-
-    for(var x=0; x <=7; x++){
-      for(var y=0; y <=7; y++){
-        if (itemsR[x][y] == "O" ) {
-          itemsB[x][y]=itemsR[x][y];
-        } else {
-          itemsF[x][y]=itemsR[x][y];          
-        }
-      }
-    }
-
-    //alert(itemsR[0][0]);
-
-    initial();
-
-  } else {
-
-  }
-}
-
-
-function initialF(){
-
-  //clean
-  for(var x=0; x <=7; x++){
-    for(var y=0; y <=7; y++){
-      itemsF[x][y] = ".";
-      itemsB[x][y] = ".";
-    }
-  }
-
-
-
- 
-
-importstr = importstr.split(' ').join('');
-
-/*
-  importstr=  "..O.***."+
-              "OOO...*."+
-              ".OOO...."+
-              ".O......"+
-              ".*......"+
-              ".***...."+
-              "***....*"+
-              "..*..***"
-*/
-
-/*
-alert(importstr.charAt(1));
-alert(importstr.charAt(3));
-alert(importstr.charAt(9));
-alert(importstr.charAt(10));
-*/
-
-  for(var x=0; x <=7; x++){
-    for(var y=0; y <=7; y++){
-      if ( importstr.charAt(x *8 + y ).toUpperCase() == "O" ) {
-        itemsB[x][y] = importstr.charAt(x *8 + y );
-      } else {
-        itemsF[x][y] = importstr.charAt(x *8 + y );
-      }
-
-    }
-  }
-
-
-}
-
-
-function initial(){
-
-  document.getElementById("div-may-hide-01").style.visibility = preset.div1vis;
-  document.getElementById("div-may-hide-02").style.visibility = preset.div2vis;
-
-
-
-
-//  document.getElementById("area01").style.visibility = "hidden";
-//  document.getElementById("areaBest").style.visibility = "hidden";
-//  document.getElementById("areaMoves").style.visibility = "hidden";
-//  document.getElementById("areaSteps").style.visibility = "hidden";
-
-
-
-
-  document.getElementById("area01").innerHTML = "Hello JavaScript!";
-
-  //document.getElementById("glass01").onmouseover = "";
-  document.getElementById("bx00").style.cursor = "pointer";
- 
-  if (editmode == 1){
-    edittime++;
-    document.body.style.backgroundColor = "lightblue";
-    document.getElementById("btnBuild").innerHTML = "Save";
-    document.getElementById("btnNewGame").disabled = true;
-
-    for(var x=0; x <=7; x++){
-      for(var y=0; y <=7; y++){
-        //document.getElementById("glass" +x +y).style.cursor = "pointer";
-		document.getElementById("bx" +x +y).style.cursor = "pointer";
-      }
-    }
-
-    //import walls and targets to itemsR (rebuild initial image)
-    for(var x=0; x <=7; x++){
-      for(var y=0; y <=7; y++){
-        itemsR[x][y]=itemsF[x][y];
-        if (itemsB[x][y].toUpperCase() == "O"){
-          itemsR[x][y]=itemsB[x][y];
-        }
-      }
-    }
-
-  } else {
-    document.body.style.backgroundColor = "grey";
-    document.getElementById("btnBuild").innerHTML = "(B)uild";
-    document.getElementById("btnNewGame").disabled = false;
-  }
-
-
-
-  //clean
-  for(var x=0; x <=7; x++){
-    for(var y=0; y <=7; y++){
-      items[x][y]=".";
-    }
-  }
-
-//  var items = matrix( 8, 8, ".");
-
-  //import walls and targets
-  for(var x=0; x <=7; x++){
-    for(var y=0; y <=7; y++){
-      if (itemsF[x][y] !== "."){
-        items[x][y]=itemsF[x][y];
-      }
-      if (itemsB[x][y] == "O"){
-        items[x][y]=itemsB[x][y];
-      }
-    }
-  }
-
-/*
-  items[document.getElementById("1x").value][document.getElementById("1y").value] = "O";
-  items[document.getElementById("2x").value][document.getElementById("2y").value] = "O";
-  items[document.getElementById("3x").value][document.getElementById("3y").value] = "O";
-  items[document.getElementById("4x").value][document.getElementById("4y").value] = "O";
-*/
-  var index;
-  var text="";
-
-  for (index = 0; index < items.length; index++) {
-      text += items[index];
-      text += "<br>"
-  }
-
-  text = text.replace(/,/g , " ");
-
-  document.getElementById("area01").innerHTML = text;
-  document.getElementById("area51").value = text.split('<br>').join('');  
-
-  //over the target, light on!
-  for(var x=0; x <=7; x++){
-    for(var y=0; y <=7; y++){
-      //items[x][y] = items[x][y].toUpperCase();
-      //alert(x + "," + y + "__" + items[x][y] + "_" + itemsF[x][y] );
-      //document.getElementById("msg").innerHTML = (x + "," + y + "__" + items[x][y] + "_" + itemsF[x][y] );
-
-      if (itemsF[x][y] == "x"  && items[x][y].toUpperCase() == "O") {
-        items[x][y]= "o";
-      }
-      //document.getElementById("glass" +x +y).src = srcPathOut(x,y);
-	  //CHANGE COLOR
-	  document.getElementById("bx" +x +y).style.background = srcPathOut(x,y);
-    }
-  }
-
-  /*
-  document.getElementById("glass00").src = srcPathOut(0,0);
-  document.getElementById("glass01").src = srcPathOut(0,1);
-  document.getElementById("glass02").src = srcPathOut(0,2);
-  document.getElementById("glass06").src = srcPathOut(0,6);
-  document.getElementById("glass33").src = srcPathOut(3,3);
-  */
-
-  //alert(items[0][0]);
-  //alert(srcPathOut[0][0]);
   
   
-  movecount();
-  if (isWin() ) {
-    for(var x=0; x <=7; x++){
-      for(var y=0; y <=7; y++){
-        if (itemsF[x][y] == "x") {
-          items[x][y] = "xx";
-          //document.getElementById("glass" +x +y).src = srcPathOut(x,y);
-		  //CHANGE COLOR
-          document.getElementById("bx" +x +y).style.background = srcPathOut(x,y);
-        }
-      }
-    }
-  }
 
-  if (freeze == 1) {
-    document.getElementById("areamsg").innerHTML = "WIN!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!<br>";
-    document.getElementById("areaBest").innerHTML = document.getElementById("areaMoves").innerHTML + " - " + document.getElementById("areaSteps").innerHTML;
-  }
-  //alert(document.getElementById("area01").innerHTML );
-}
 
-
-
-function matrix( rows, cols, defaultValue){
-
-  var arr = [];
-
-  // Creates all lines:
-  for(var i=0; i < rows; i++){
-
-      // Creates an empty line
-      arr.push([]);
-
-      // Adds cols to the empty line:
-      arr[i].push( new Array(cols));
-
-      for(var j=0; j < cols; j++){
-        // Initializes:
-        arr[i][j] = defaultValue;
-      }
-  }
-
-return arr;
-}
-
-
-
-function up(){
-
-  if (freeze == 0){
-      for (var bx=0; bx <=7; bx++){
-        for (var by=0; by <=7; by++){
-          if (items[bx][by].toUpperCase() == "O") {
-            //alert(bx +"," +by + "__" + itemsB[bx][by]);
-            if (  (bx - 1 >= document.getElementById("min").value ) &&
-                  valid(  (bx - 1 ), (by), "U"  )
-               )
-            {
-              itemsB[bx][by] = ".";
-              itemsB[bx-1][by] = "O";
-            }
-            
-          }
-        }
-      }
-  }
-
-  initial();
-
-}
-
-
-
-
-function down(){
-
-  if (freeze == 0){
-      for (var bx=7; bx >=0; bx--){
-        for (var by=0; by <=7; by++){
-          if (items[bx][by].toUpperCase() == "O") {
-            //alert(bx +"," +by + "__" + itemsB[bx][by]);
-            if (  (bx + 1 <= document.getElementById("max").value ) &&
-                  valid(  (bx + 1 ), (by), "D"  )
-               )
-            {
-              itemsB[bx][by] = ".";
-              itemsB[bx +1][by] = "O";
-            }
-            
-          }
-        }
-      }
-  }
-
-  initial();
-
-}
-
-
-
-function left(){
-
-  if (freeze == 0){
-      for (var y=0; y <=7; y++){
-        for (var x=0; x <=7; x++){
-          if (items[x][y].toUpperCase() == "O") {
-            //alert(bx +"," +by + "__" + itemsB[bx][by]);
-            if (  (y - 1 >= document.getElementById("min").value ) &&
-                  valid(  (x), (y -1), "L"  )
-               )
-            {
-              itemsB[x][y] = ".";
-              itemsB[x][y-1] = "O";
-            }
-            
-          }
-        }
-      }
-  }
-
-  initial();
-
-}
-
-
-
-function right(){
-
-  if (freeze == 0){
-      for (var y=7; y >=0; y--){
-        for (var x=0; x <=7; x++){
-          if (itemsB[x][y].toUpperCase() == "O") {
-            //alert(bx +"," +by + "__" + itemsB[bx][by]);
-            if (  (y + 1 <= document.getElementById("max").value ) &&
-                  valid(  (x), (y +1 ), "R"  )
-               )
-            {
-              itemsB[x][y] = ".";
-              itemsB[x][y+1] = "O";
-            }
-            
-          }
-        }
-      }
-  }
-
-  initial();
-
-}
-
-
-
-function valid(x, y, z ){
-
-  if (  editmode == "1" ||
-        itemsF[x][y] == "*" ||
-
-        /*
-        ((x == 3) && (y == 0)) ||
-        ((x == 3) && (y == 1)) ||
-        ((x == 3) && (y == 3)) ||
-        ((x == 3) && (y == 4)) ||
-        ((x == 3) && (y == 6)) ||
-        ((x == 3) && (y == 7)) ||
-        */
-
-        itemsB[x][y] == "O"
-        /*
-        ((x == document.getElementById("1x").value) && (y == document.getElementById("1y").value)) ||
-        ((x == document.getElementById("2x").value) && (y == document.getElementById("2y").value)) ||
-        ((x == document.getElementById("3x").value) && (y == document.getElementById("3y").value)) ||
-        ((x == document.getElementById("4x").value) && (y == document.getElementById("4y").value))
-        */
-     )
-  {  //alert("f");
-     return false;
-  }else{
-     //alert("t");
-     steps = z;
-     return true;
-  }
-
-}
-
-
-
-function isWin() {
-
-  //var x;
-  //var y;
-  var cnto=0;
-  var cntx=0;
-  //var ttl=0;
-
-
-  for(var x=0; x <=7; x++){
-    for(var y=0; y <=7; y++){
-      if (items[x][y] == "O"){
-        return false;
-      } else if (items[x][y] == "o"){
-        cnto++;
-      } if (itemsF[x][y] == "x"){
-        cntx++;
-      }
-    }
-  }
-  if ((cnto > 0) && (cnto == cntx)) {
-    //alert("win");
-    freeze = 1;
-
-    return true;
-  }
-  return false;
-
-/*
-  for (var b=1; b <=4; b++){
-
-    x = document.getElementById(b+"x").value;
-    y = document.getElementById(b+"y").value;
-
-    if (  ((x == 0) && (y == 6)) ||
-          ((x == 1) && (y == 5)) ||
-          ((x == 1) && (y == 7)) ||
-          ((x == 2) && (y == 6))
-       )
-    {
-      ttl = ttl + 1;
-    }
-
-  }
-  if (ttl == 4){
-    freeze = 1;
-    return true;    
-    //alert("WIN!");
-  };
-  return false;
- */ 
-}
-
-
-
-function movecount(){
-  document.getElementById("areaSteps").innerHTML =   document.getElementById("areaSteps").innerHTML + steps;
-  document.getElementById("areaMoves").innerHTML =   document.getElementById("areaSteps").innerHTML.length;
-  steps = "";
-}
-
-
-
-function reset(){
-
-  freeze = 0;
-  //pixel = 25;
-  editmode = 0;
-  steps = "";
-
-  /*
-  document.getElementById("1x").value = 5;
-  document.getElementById("1y").value = 2;
-  document.getElementById("2x").value = 6;
-  document.getElementById("2y").value = 1;
-  document.getElementById("3x").value = 6;
-  document.getElementById("3y").value = 3;
-  document.getElementById("4x").value = 7;
-  document.getElementById("4y").value = 2;
-  */
-
-  document.getElementById("areaSteps").innerHTML = "";
-  movecount();
-
-  document.getElementById("areamsg").innerHTML = "";
-
-  initialF();
-
-//alert((16).toString());
-
-//alert(Math.pow(2,16));
-
-
-//srcPathOut(3,3);
-//alert(srcPathOut(3,3));
-
-}
-
-
-/*
-function autorun(steps){
-
-  var s = 1;
-  while (s <= steps) {
-    for(var ss=7; ss >=0; ss--){
-    
-
-    }
-    i++;
-  }
-
-
-}
-*/
-
-/*
-function srcPathOut(x,y) {
-  var type = items[x][y];
-  //alert(type);
-  
-  if (type == ".") {
-    return imgpath+pixel+"/space.png";
-  }else if (type == "O") {
-    return imgpath+pixel+"/o.png";
-  }else if (type == "o") {
-    return imgpath+pixel+"/on.png";
-  }else if (type == "x") {
-    return imgpath+pixel+"/x.png";
-  }else if (type == "*") {
-    return imgpath+pixel+"/wall.png";
-  //}else if (type == "X") {
-  //  return imgpath+pixel+"/x.png";
-  }else {
-    return imgpath+pixel+"/xx.png";
-  }
-}
-*/
-
-//CHANGE COLOR
-function srcPathOut(x,y) {
-  var type = items[x][y];
-  //alert(type);
-  
-  if (type == ".") {
-//space -------------
-    return rgb_space;
-  }else if (type == "O") {
-//off -------------
-    return rgb_off;
-  }else if (type == "o") {
-//on -------------
-    return rgb_on;
-  }else if (type == "x") {
-//dest -------------
-    return rgb_dest;
-  }else if (type == "*") {
-//wall -------------
-    return rgb_wall;
-  }else {
-//done -------------
-    return rgb_done;
-  }
-}
-
-function changePixel() {
-  pixel = (Math.pow(((Math.pow(pixel,0.5) - 6) * -1) + 6,2));
-  initial();
-}
-
-//edit(
-function clicked(id_in){
-  if (editmode == 1){
-
-    var x = id_in.charAt(5);
-    var y = id_in.charAt(6);
-    //alert(id_in.charAt(5) + "," + id_in.charAt(6) + "__" + items[x][y]);
-
-    //alert(items[x][y]);
-
-
-    if (items[x][y] == ".") {
-      itemsF[x][y] = "*";
-      itemsB[x][y] = ".";
-
-    }else if (items[x][y] == "*") {
-      itemsF[x][y] = "x";
-      itemsB[x][y] = ".";
-    }else if (items[x][y] == "x") {
-      itemsF[x][y] = ".";
-      itemsB[x][y] = "O";
-    }else if (items[x][y].toUpperCase() == "O") {
-      itemsF[x][y] = ".";
-      itemsB[x][y] = ".";
-    }
-
-    initial();
-  }
-}
-
-function clearAll(){
-
-  for(var x=0; x <=7; x++){
-    for(var y=0; y <=7; y++){
-      itemsB[x][y]=".";
-      itemsF[x][y]=".";
-      items[x][y]=".";
-    }
-  }
-
-  initial();
-
-}
 
 
 </script>
+
 
 
 
@@ -826,63 +152,33 @@ function clearAll(){
   </tr>
 </table>
 
-<div id="div-may-hide-01">
-
-<!--
-<input type="text" id="clickandtype" width="1" size="1" value="" autofocus="autofocus" onkeydown="this.value='';" >
--->
 <br>
+Moves: <a id="areaMoves">yyyy</a>
+
+<div id="div-may-hide-01">
 <a id="areamsg"></a>
 Best: <a id="areaBest"></a>
 <br>
-
+Steps: <a id="areaSteps">.</a>
+<br>
 </div>
 
 
-moves: <a id="areaMoves">yyyy</a>
 
 
-<div id="div-may-hide-02">
-
-<br>
-steps: <a id="areaSteps">.</a>
-<br>
 <br>
 <table style="width:px" cellspacing="0" cellpadding="0" >
-  <tr >
-    <td></td>
-    <td><button style="height:25px; width:25px" type="button" id="btn_up" onclick="up();">w</button></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-  </tr>
   <tr>
-    <td><button style="height:25px; width:25px" type="button" id="btn_left" onclick="left();">a</button></td>
-    <td><button style="height:25px; width:25px" type="button" id="btn_down" onclick="down();">s</button></td>
-    <td><button style="height:25px; width:25px" type="button" id="btn_down" onclick="right();">d</button></td>
-    <td>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</td>
     <td><button style="height:18px; font-size: 70%" type="button" id="btnReset" onclick="initialF();initial();reset();initial();">(R)eset</button></td>
     <td>&nbsp&nbsp</td>
-    <td><button style="height:18px; font-size: 70%" type="button" id="btnChangePixel" onclick="changePixel();">(c)hange pixel</button></td>
-    <td>&nbsp&nbsp</td>
-    <td><button style="height:18px; font-size: 70%" type="button" id="btnBuild" onclick="editmode= -1*(editmode-1); initial();">(b)uild</button></td>
-    <td>&nbsp&nbsp</td>
-    <td><button style="height:18px; font-size: 70%" type="button" id="btnNewGame" onclick="initialR();">(n)ew game</button></td>
+    <td>  <select class="custom-select" id="selectLevel" onchange="selectChanged();initialF();initial();reset();initial();" ><option>Choose a number</option></select>  </td>
+    <td></td>
+    <td></td>
   </tr>
   <tr>
     <td></td>
     <td></td>
     <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td><button style="height:25px; width:50px" type="button" id="btnClear" onclick="clearAll();">clear</button></td>
     <td></td>
     <td></td>
   </tr>  
@@ -890,28 +186,37 @@ steps: <a id="areaSteps">.</a>
 
 <br>
 
+<div id="div-may-hide-02">
 
-
-<a id="area01">xxxx</a>
+<a id="area_items"></a>
 <br>
-<input type="text" id="area51" value="" onfocus="this.select();">
+<input type="text" id="area_items_single_row" value="" style="width:800px" onfocus="this.select();">
+<br>
+
+F
+<br>
+<a id="area_itemsF"></a>
+<br>
+B
+<br>
+<a id="area_itemsB"></a>
+<br>
+
+All levels
+<br>
+<a id="area_itemsA"></a>
+<br>
+
+
+
+
+
 <input type="hidden" id="cnt" value="0">
 <!--input type="hidden" id="moved" value="0"-->
 
 <input type="hidden" id="min" value="0">
 <input type="hidden" id="max" value="7">
 
-<input type="hidden" id="1x" value="5">
-<input type="hidden" id="1y" value="2">
-
-<input type="hidden" id="2x" value="6">
-<input type="hidden" id="2y" value="1">
-
-<input type="hidden" id="3x" value="6">
-<input type="hidden" id="3y" value="3">
-
-<input type="hidden" id="4x" value="7">
-<input type="hidden" id="4y" value="2">
 
 </div>
 
