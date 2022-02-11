@@ -24,6 +24,7 @@ function initialF(){
               "..*..***"
 */
 
+
   for(var x=0; x <=7; x++){
     for(var y=0; y <=7; y++){
       if ( importstr.charAt(x *8 + y ).toUpperCase() == "O" ) {
@@ -39,11 +40,15 @@ function initialF(){
 }
 
 
-function initial(){
-
+function initialH(){
   document.getElementById("div-may-hide-01").style.visibility = preset.div1vis;
   document.getElementById("div-may-hide-02").style.visibility = preset.div2vis;
+  document.getElementById("div-may-hide-03").style.visibility = preset.div3vis;
+}
 
+
+
+function initial(){
   document.getElementById("bx00").style.cursor = "pointer";
   document.body.style.backgroundColor = "grey";
   //document.getElementById("btnBuild").innerHTML = "(B)uild";
@@ -109,11 +114,14 @@ function initial(){
   //reading itemsB matrix
   text="";
   for (index = 0; index < levels.length; index++) {
-      text += levels[index];
+      text += levels[index][0];
       text += "<br>"
   }
   text = text.replace(/,/g , " ");
   document.getElementById("area_itemsA").innerHTML = text;
+  
+  
+  document.getElementById("areatodaylevel").innerHTML = todaylevel;
 
 
 
@@ -150,7 +158,12 @@ function initial(){
 
   if (freeze == 1) {
     document.getElementById("areamsg").innerHTML = "WIN!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!<br>";
-    document.getElementById("areaBest").innerHTML = document.getElementById("areaMoves").innerHTML + " - " + document.getElementById("areaSteps").innerHTML;
+	
+	if (  document.getElementById("best").value == 0 || document.getElementById("areaMoves").innerHTML < document.getElementById("best").value  ) {
+		document.getElementById("best").value = document.getElementById("areaMoves").innerHTML;
+		document.getElementById("areaBest").innerHTML = document.getElementById("areaMoves").innerHTML + " - " + document.getElementById("areaSteps").innerHTML;
+	}
+    
   }
   
   
@@ -159,7 +172,7 @@ function initial(){
     var select = document.getElementById("selectLevel");
 
     for(var i = 0; i < levels.length; i++) {
-      var value = levels[i];
+      var value = levels[i][0];
 	  var txt = "Level " + i + " ";
 	  //var txt = i + " - " + value;
       var elem = document.createElement("option");
@@ -358,7 +371,8 @@ function clearAll(){
 }
 
 function initAll(){
-	initialF();initial();reset();initial();
+	initialH();initialF();initial();reset();initial();
+	setCookies(22,222);
 	document.getElementById("btnReset").focus();
 }
 
@@ -368,14 +382,53 @@ function selectChanged() {
   importstr=document.getElementById("selectLevel").value;
 }
 
+function checkCookies() {
+  let bestRecords = getCookies("bestRecords");
+  if (bestRecords != "") {
+    alert("document.cookie : " + document.cookie);
+  } else {
+    alert("There is no record in your cookies.")
+  }
+}
 
+function setCookies(level,newbestRec) {
+  //const d = new Date();
+  //d.setTime(d.getTime() );
+  //let dates = "dates="+ (365 * 86400 * 1000); //24 * 60 * 60 * 1000
+  
+  
+  var now = new Date();
+  var time = now.getTime();
+  
+  //alert(time);
+  
+  var expireTime = time + 1000*36000;
+  now.setTime(expireTime);
+  //document.cookie = 'cookie=ok;expires='+now.toUTCString()+';path=/';
+  
+  document.cookie = "bestRecords" + "=" + level + ":" + newbestRec + ";" + "expires=2147483647; path=/";
+  //document.cookie = "bestRecords" + "=" + level + ":" + newbestRec + ";" + "expires=" + dates.toGMTString() + ";path=/";
+  //document.cookie = "bestRecords=" + level + ":" + newbestRec + ";" + "path=/";
+  
+  
+  //alert("document.cookie : " + document.cookie);
+}
 
-
-
-
-
-
-
+function getCookies(key) {
+  let myCookie = key + "=";
+  
+  let eachCookieName = document.cookie.split(';');
+  for(let i = 0; i < eachCookieName.length; i++) {
+    let c = eachCookieName[i];
+    while (c.charAt(0) == ' ') {
+      c = c.substring(1);
+    }
+    if (c.indexOf(myCookie) == 0) {
+      return c.substring(myCookie.length, c.length);
+    }
+  }
+  return "";
+}
 
 
 

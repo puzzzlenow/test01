@@ -16,13 +16,14 @@
 <script src="js/core.js"></script>
 <script type="text/javascript">
 
-//hidden/visible
-
+//toggle hidden/visible of div
   var preset = {
 	div1vis: "visible",
-	div2vis: "hidden"
+	div2vis: "hidden",
+	div3vis: "hidden"
   }
 
+  //colour of each state
   var rgb_space  = "rgb(125, 125, 125)";
   var rgb_off   = "rgb(220, 220, 220)";
   var rgb_on   = "rgb(130, 240, 255)";
@@ -30,12 +31,9 @@
   var rgb_wall = "rgb(60, 60, 60)";
   var rgb_done = "rgb(255, 255, 80)";
   
-  var importstr = "";
-  importstr = "OO......OO......OO****..OO*xxxx...*xxxx...*.***...*.......*.....";
-
-  var items = matrix( 8, 8, ".");
-  var itemsF = matrix( 8, 8, ".");
-  var itemsB = matrix( 8, 8, ".");
+  var items = matrix( 8, 8, ".");   //combine
+  var itemsF = matrix( 8, 8, ".");  //walls and targets
+  var itemsB = matrix( 8, 8, ".");  //pieces
   var itemsA ="";
 
   var freeze = 0;
@@ -45,10 +43,22 @@
 
   var steps = "";
   
+  //string of the game level to import
+  var importstr = "";
+  //importstr = "OO......OO......OO****..OO*xxxx...*xxxx...*.***...*.......*.....";
   
-
-
-
+  Date.prototype.getJulian = function() {
+    return Math.floor((this / 86400000) - (this.getTimezoneOffset() / 1440) + 2440587.5);
+  }
+  
+  var today = new Date();
+  var julian = today.getJulian(); //get julian date
+  
+  var todaylevel = julian % (levels.length - 1);
+  //document.getElementById("areatodaylevel").innerHTML = todaylevel;
+  
+  //set the chess board with decided game level flat matrix
+  importstr=levels[todaylevel][0];
 
 </script>
 
@@ -68,6 +78,10 @@
 -->
 
 <body onload="initAll();">
+
+Today Level: <a id="areatodaylevel">yyyy</a>
+
+<br>
 
 <table style="width:px" border="0" cellspacing="0" cellpadding="0" >
   <tr>
@@ -164,29 +178,32 @@ Steps: <a id="areaSteps">.</a>
 </div>
 
 
-
-
 <br>
 <table style="width:px" cellspacing="0" cellpadding="0" >
   <tr>
-    <td><button style="height:18px; font-size: 70%" type="button" id="btnReset" onclick="initAll();">(R)eset</button></td>
+    <td><button style="height:18px; font-size: 70%" type="button" id="btnReset" onclick="initAll();">Retry</button></td>
     <td>&nbsp&nbsp</td>
-    <td>  <select class="custom-select" id="selectLevel" onchange="selectChanged();initAll();" ><option>Choose a number</option></select>  </td>
+    <td>  <select class="custom-select" id="selectLevel" onchange="selectChanged();initAll();" ><option>Choose a Level</option></select>  </td>
     <td></td>
     <td></td>
   </tr>
-  <tr>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-  </tr>  
 </table>
 
+<div id="div-may-hide-02">
+<table style="width:px" cellspacing="0" cellpadding="0" >
+  <tr>
+    <td><button style="height:18px; font-size: 70%" type="button" id="btnTest1" onclick="checkCookies();">CheckCoo</button></td>
+    <td><button style="height:18px; font-size: 70%" type="button" id="btnTest2" onclick="setCookies(10,100);">SetCoo</button></td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr> 
+</table>
+</div>  
+  
 <br>
 
-<div id="div-may-hide-02">
+<div id="div-may-hide-03">
 
 <a id="area_items"></a>
 <br>
@@ -208,15 +225,11 @@ All levels
 <br>
 
 
-
-
-
 <input type="hidden" id="cnt" value="0">
-<!--input type="hidden" id="moved" value="0"-->
-
 <input type="hidden" id="min" value="0">
 <input type="hidden" id="max" value="7">
 
+<input type="hidden" id="best" value="0">
 
 </div>
 
