@@ -449,10 +449,10 @@ function getResolution(){
     //w.value = $(window).width();
     //h.value = $(window).height();
 	if ( screen.width < screen.height ) {
-		return screen.width / 9;
+		return screen.width / 13;
 	}
 	else {
-		return screen.height  / 13;
+		return screen.height  / 10;
 	}
 }
 
