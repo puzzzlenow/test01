@@ -162,11 +162,13 @@ function initial(){
   }
 
   if (freeze == 1) {
-    document.getElementById("areamsg").innerHTML = "WIN!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!<br>";
+    document.getElementById("areamsg").innerHTML = "WIN!!!!!!!!!!!!!!!!!!<br>";
 	
 	if (  document.getElementById("best").value == 0 || document.getElementById("areaMoves").innerHTML < document.getElementById("best").value  ) {
 		document.getElementById("best").value = document.getElementById("areaMoves").innerHTML;
-		document.getElementById("areaBest").innerHTML = document.getElementById("areaMoves").innerHTML + " - " + document.getElementById("areaSteps").innerHTML;
+		document.getElementById("areaBest").innerHTML = document.getElementById("areaMoves").innerHTML;
+		//document.getElementById("areaBest").innerHTML = document.getElementById("areaMoves").innerHTML + " - " + document.getElementById("areaSteps").innerHTML;
+		document.getElementById("areamsg").innerHTML = document.getElementById("areamsg").innerHTML + "NEW RECORD !!!!!!!!!!!!!!!!!!<br>";
 	}
 	
 	updateRecord();
@@ -378,6 +380,13 @@ function clearAll(){
 }
 
 function initAll(){
+	
+	//dynamic button width height
+	document.querySelectorAll(".button").forEach(function(element) {
+		element.style.width = getResolution();
+		element.style.height = getResolution();
+	});
+	
 	initialH();initialF();initial();reset();initial();
 	//setCookies(88,888);
 	document.getElementById("btnReset").focus();
@@ -401,9 +410,11 @@ function retrieveCookies() {
   if (record != "") {
     //alert("level " +currentlevel+ " : " + record);
 	document.getElementById("areaBest").innerHTML = record;
+	document.getElementById("best").value = record;
   } else {
     //alert("There is no record in your cookies.")
 	document.getElementById("areaBest").innerHTML = "";
+	document.getElementById("best").value = "";
   }
 }
 
@@ -413,26 +424,8 @@ function updateRecord() {
 }
 
 function setCookies(level,newbestRec) {
-  //const d = new Date();
-  //d.setTime(d.getTime() );
-  //let dates = "dates="+ (365 * 86400 * 1000); //24 * 60 * 60 * 1000
-  
-  
-  var now = new Date();
-  var time = now.getTime();
-  
-  //alert(time);
-  
-  var expireTime = time + 1000*36000;
-  now.setTime(expireTime);
-  //document.cookie = 'cookie=ok;expires='+now.toUTCString()+';path=/';
-  
+  //write cookie with level best record and expires in y2k38
   document.cookie = level + "=" + newbestRec + ";" + "expires="+ new Date(2147483647*1000).toUTCString()+"; path=/";
-  //document.cookie = "bestRecords" + "=" + level + ":" + newbestRec + ";" + "expires=" + dates.toGMTString() + ";path=/";
-  //document.cookie = "bestRecords=" + level + ":" + newbestRec + ";" + "path=/";
-  
-  
-  //alert("document.cookie : " + document.cookie);
 }
 
 function getCookies(key) {
@@ -452,7 +445,16 @@ function getCookies(key) {
 }
 
 
-
+function getResolution(){
+    //w.value = $(window).width();
+    //h.value = $(window).height();
+	if ( screen.width < screen.height ) {
+		return screen.width / 9;
+	}
+	else {
+		return screen.height  / 13;
+	}
+}
 
 
 
