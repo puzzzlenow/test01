@@ -419,6 +419,21 @@ function retrieveCookies() {
   }
 }
 
+function retrieveCookiesDebug() {
+  let record1 = getCookies(currentlevel);
+  if (record1 != "") {
+	document.getElementById("areaBest").innerHTML = record1;
+	document.getElementById("best").value = record1;
+	alert("level " +currentlevel+ " : '" + record1 + "'");
+	alert("document.cookie : '" +document.cookie + "'");
+  } else {
+    alert("There is no record in your cookies.")
+	document.getElementById("areaBest").innerHTML = "";
+	document.getElementById("best").value = "";
+  }
+}
+
+
 function updateRecord() {
 	setCookies(currentlevel,document.getElementById("best").value);
 	//alert("writing.." + currentlevel +"="+document.getElementById("best").value)
