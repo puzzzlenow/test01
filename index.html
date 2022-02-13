@@ -54,6 +54,8 @@
   var today = new Date();
   var julian = today.getJulian(); //get julian date
   
+  var currentlevel = "";
+  
   var todaylevel = julian % (levels.length - 1);
   //document.getElementById("areatodaylevel").innerHTML = todaylevel;
   
@@ -78,11 +80,7 @@
 -->
 
 <body onload="initAll();">
-
-Today Level: <a id="areatodaylevel">yyyy</a>
-
 <br>
-
 <table style="width:px" border="0" cellspacing="0" cellpadding="0" >
   <tr>
     <td><button class="button" id="bx00" onclick="clicked(this.id)"></button></td>
@@ -166,12 +164,14 @@ Today Level: <a id="areatodaylevel">yyyy</a>
   </tr>
 </table>
 
+
+Level: <a id="areacurrentlevel">yyyy</a>
 <br>
 Moves: <a id="areaMoves">yyyy</a>
 
 <div id="div-may-hide-01">
 <a id="areamsg"></a>
-Best: <a id="areaBest"></a>
+Best : <a id="areaBest"></a>
 <br>
 Steps: <a id="areaSteps">.</a>
 <br>
@@ -183,21 +183,29 @@ Steps: <a id="areaSteps">.</a>
   <tr>
     <td><button style="height:18px; font-size: 70%" type="button" id="btnReset" onclick="initAll();">Retry</button></td>
     <td>&nbsp&nbsp</td>
-    <td>  <select class="custom-select" id="selectLevel" onchange="selectChanged();initAll();" ><option>Choose a Level</option></select>  </td>
+    <td>  <select class="custom-select" id="selectLevel" onchange="selectChanged(this);initAll();" ><option>Choose a Level</option></select>  </td>
     <td></td>
     <td></td>
   </tr>
 </table>
 
 <div id="div-may-hide-02">
+<br>
 <table style="width:px" cellspacing="0" cellpadding="0" >
   <tr>
-    <td><button style="height:18px; font-size: 70%" type="button" id="btnTest1" onclick="checkCookies();">CheckCoo</button></td>
-    <td><button style="height:18px; font-size: 70%" type="button" id="btnTest2" onclick="setCookies(10,100);">SetCoo</button></td>
+    <td><button style="height:18px; font-size: 70%" type="button" id="btnTest1" onclick="retrieveCookies();">CheckCoo</button></td>
+	<td><button style="height:18px; font-size: 70%" type="button" id="btnTest2" onclick="setCookies();">SetCoo</button></td>
     <td></td>
     <td></td>
-    <td></td>
+	<td></td>
   </tr> 
+  <tr>
+    <td>Today Level: <a id="areatodaylevel">yyyy</a></td>
+	<td></td>
+	<td></td>
+	<td></td>
+	<td></td>
+  </tr>
 </table>
 </div>  
   

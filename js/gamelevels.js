@@ -78,6 +78,7 @@ levels = [
 ["........*......*OOO*.xxxOOO**xxxOOO**xxx...*.....*....*..*....*.",""],
 ["*.OOOO.*........O.xxxx.O..*xx*..O.xxxx.OO.xxxx.O........*.OOOO.*",""],
 ["........O***x...O.*.x.*.O...x**.O.*.x.*.O.**x.....*..*......***.",""],
+["OOOOOOOO.******..*xxxx*...xxxx...*xxxx*...xxxx*..******.OOOOOOOO",""]
 ]
 
 

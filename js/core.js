@@ -23,7 +23,8 @@ function initialF(){
               "***....*"+
               "..*..***"
 */
-
+  
+  document.getElementById("areacurrentlevel").innerHTML = currentlevel;
 
   for(var x=0; x <=7; x++){
     for(var y=0; y <=7; y++){
@@ -122,6 +123,10 @@ function initial(){
   
   
   document.getElementById("areatodaylevel").innerHTML = todaylevel;
+  
+  if ( currentlevel == "" ) {
+	  document.getElementById("areacurrentlevel").innerHTML = todaylevel;
+  }
 
 
 
@@ -163,6 +168,8 @@ function initial(){
 		document.getElementById("best").value = document.getElementById("areaMoves").innerHTML;
 		document.getElementById("areaBest").innerHTML = document.getElementById("areaMoves").innerHTML + " - " + document.getElementById("areaSteps").innerHTML;
 	}
+	
+	updateRecord();
     
   }
   
@@ -173,7 +180,7 @@ function initial(){
 
     for(var i = 0; i < levels.length; i++) {
       var value = levels[i][0];
-	  var txt = "Level " + i + " ";
+	  var txt = i;
 	  //var txt = i + " - " + value;
       var elem = document.createElement("option");
 	  
@@ -372,23 +379,36 @@ function clearAll(){
 
 function initAll(){
 	initialH();initialF();initial();reset();initial();
-	setCookies(22,222);
+	//setCookies(88,888);
 	document.getElementById("btnReset").focus();
 }
 
 
-function selectChanged() {
+function selectChanged(sel) {
   //alert(document.getElementById("selectLevel").value);
-  importstr=document.getElementById("selectLevel").value;
+  importstr=document.getElementById("selectLevel").value;  
+  currentlevel = sel.options[sel.selectedIndex].text;
+  
+  //try to get best record of this level from cookies
+  retrieveCookies();
 }
 
-function checkCookies() {
-  let bestRecords = getCookies("bestRecords");
-  if (bestRecords != "") {
-    alert("document.cookie : " + document.cookie);
+
+//COOKIES
+
+function retrieveCookies() {
+  let record = getCookies(currentlevel);
+  if (record != "") {
+    //alert("level " +currentlevel+ " : " + record);
+	document.getElementById("areaBest").innerHTML = record;
   } else {
-    alert("There is no record in your cookies.")
+    //alert("There is no record in your cookies.")
   }
+}
+
+function updateRecord() {
+	setCookies(currentlevel,document.getElementById("best").value);
+	//alert("writing.." + currentlevel +"="+document.getElementById("best").value)
 }
 
 function setCookies(level,newbestRec) {
@@ -406,7 +426,7 @@ function setCookies(level,newbestRec) {
   now.setTime(expireTime);
   //document.cookie = 'cookie=ok;expires='+now.toUTCString()+';path=/';
   
-  document.cookie = "bestRecords" + "=" + level + ":" + newbestRec + ";" + "expires=2147483647; path=/";
+  document.cookie = level + "=" + newbestRec + ";" + "expires=2147483647; path=/";
   //document.cookie = "bestRecords" + "=" + level + ":" + newbestRec + ";" + "expires=" + dates.toGMTString() + ";path=/";
   //document.cookie = "bestRecords=" + level + ":" + newbestRec + ";" + "path=/";
   
