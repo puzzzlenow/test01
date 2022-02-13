@@ -382,11 +382,12 @@ function clearAll(){
 function initAll(){
 	
 	//dynamic button width height
+	/*
 	document.querySelectorAll(".button").forEach(function(element) {
 		element.style.width = getResolution();
 		element.style.height = getResolution();
 	});
-	
+	*/
 	initialH();initialF();initial();reset();initial();
 	//setCookies(88,888);
 	document.getElementById("btnReset").focus();
