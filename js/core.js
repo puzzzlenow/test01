@@ -426,7 +426,7 @@ function setCookies(level,newbestRec) {
   now.setTime(expireTime);
   //document.cookie = 'cookie=ok;expires='+now.toUTCString()+';path=/';
   
-  document.cookie = level + "=" + newbestRec + ";" + "expires=2147483647; path=/";
+  document.cookie = level + "=" + newbestRec + ";" + "expires="+ new Date(2147483647*1000).toUTCString()+"; path=/";
   //document.cookie = "bestRecords" + "=" + level + ":" + newbestRec + ";" + "expires=" + dates.toGMTString() + ";path=/";
   //document.cookie = "bestRecords=" + level + ":" + newbestRec + ";" + "path=/";
   
