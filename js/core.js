@@ -403,6 +403,7 @@ function retrieveCookies() {
 	document.getElementById("areaBest").innerHTML = record;
   } else {
     //alert("There is no record in your cookies.")
+	document.getElementById("areaBest").innerHTML = "";
   }
 }
 
