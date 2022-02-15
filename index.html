@@ -9,6 +9,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=0.5, user-scalable=no">
 
 <link rel="stylesheet" href="styles.css">
+
+<script type="text/javascript" src="js/jquery-1.5.2.js"></script>
+
 <script src="js/moves.js"></script>
 <script src="js/swiped-events.js"></script>
 <script src="js/keyboard-listen.js"></script>
@@ -24,12 +27,19 @@
   }
 
   //colour of each state
-  var rgb_space  = "rgb(125, 125, 125)";
-  var rgb_off   = "rgb(220, 220, 220)";
-  var rgb_on   = "rgb(130, 240, 255)";
-  var rgb_dest = "rgb(155, 155, 155)";
-  var rgb_wall = "rgb(60, 60, 60)";
-  var rgb_done = "rgb(255, 255, 80)";
+  var rgb_space  = "rgb(110, 110, 110, 0.8)";
+  var rgb_off    = "rgb(240, 240, 240, 0.8)";
+  var rgb_on     = "rgb(130, 240, 255, 1.2)";
+  var rgb_dest   = "rgb(155, 155, 155, 1.2)";
+  var rgb_wall   = "rgb(50, 50, 50, 0.8)";
+  var rgb_done   = "rgb(255, 255, 80, 0.8)";
+  
+  var rgb_space2 = "rgb(110, 110, 110, 0.8)";
+  var rgb_off2   = "rgb(240, 240, 240, 0.8)";
+  var rgb_on2    = "rgb(130, 240, 255, 0.8)";
+  var rgb_dest2  = "rgb(175, 175, 175, 0.8)";
+  var rgb_wall2  = "rgb(50, 50, 50, 0.8)";
+  var rgb_done2  = "rgb(220, 220, 60, 0.8)";
   
   var items = matrix( 8, 8, ".");   //combine
   var itemsF = matrix( 8, 8, ".");  //walls and targets
@@ -81,86 +91,86 @@
 
 <body onload="initAll();">
 <br>
-<table style="width:px" border="0" cellspacing="0" cellpadding="0" >
+<table style="width:px" >
   <tr>
-    <td><button class="button" id="bx00" onclick="clicked(this.id)"></button></td>
-	<td><button class="button" id="bx01" onclick="clicked(this.id)"></button></td>
-	<td><button class="button" id="bx02" onclick="clicked(this.id)"></button></td>
-	<td><button class="button" id="bx03" onclick="clicked(this.id)"></button></td>
-	<td><button class="button" id="bx04" onclick="clicked(this.id)"></button></td>
-	<td><button class="button" id="bx05" onclick="clicked(this.id)"></button></td>
-	<td><button class="button" id="bx06" onclick="clicked(this.id)"></button></td>
-	<td><button class="button" id="bx07" onclick="clicked(this.id)"></button></td>
+    <td><div class="button aqua" id="bx00"><div class="glare"></div></div></td>
+    <td><div class="button aqua" id="bx01"><div class="glare"></div></div></td>
+    <td><div class="button aqua" id="bx02"><div class="glare"></div></div></td>
+    <td><div class="button aqua" id="bx03"><div class="glare"></div></div></td>
+    <td><div class="button aqua" id="bx04"><div class="glare"></div></div></td>
+    <td><div class="button aqua" id="bx05"><div class="glare"></div></div></td>
+    <td><div class="button aqua" id="bx06"><div class="glare"></div></div></td>
+    <td><div class="button aqua" id="bx07"><div class="glare"></div></div></td>
   </tr>
   <tr>
-    <td><button class="button" id="bx10" onclick="clicked(this.id)"></button></td>
-	<td><button class="button" id="bx11" onclick="clicked(this.id)"></button></td>
-	<td><button class="button" id="bx12" onclick="clicked(this.id)"></button></td>
-	<td><button class="button" id="bx13" onclick="clicked(this.id)"></button></td>
-	<td><button class="button" id="bx14" onclick="clicked(this.id)"></button></td>
-	<td><button class="button" id="bx15" onclick="clicked(this.id)"></button></td>
-	<td><button class="button" id="bx16" onclick="clicked(this.id)"></button></td>
-	<td><button class="button" id="bx17" onclick="clicked(this.id)"></button></td>
+    <td><div class="button aqua" id="bx10"><div class="glare"></div></div></td>
+    <td><div class="button aqua" id="bx11"><div class="glare"></div></div></td>
+    <td><div class="button aqua" id="bx12"><div class="glare"></div></div></td>
+    <td><div class="button aqua" id="bx13"><div class="glare"></div></div></td>
+    <td><div class="button aqua" id="bx14"><div class="glare"></div></div></td>
+    <td><div class="button aqua" id="bx15"><div class="glare"></div></div></td>
+    <td><div class="button aqua" id="bx16"><div class="glare"></div></div></td>
+    <td><div class="button aqua" id="bx17"><div class="glare"></div></div></td>
   </tr>
   <tr>
-    <td><button class="button" id="bx20" onclick="clicked(this.id)"></button></td>
-	<td><button class="button" id="bx21" onclick="clicked(this.id)"></button></td>
-	<td><button class="button" id="bx22" onclick="clicked(this.id)"></button></td>
-	<td><button class="button" id="bx23" onclick="clicked(this.id)"></button></td>
-	<td><button class="button" id="bx24" onclick="clicked(this.id)"></button></td>
-	<td><button class="button" id="bx25" onclick="clicked(this.id)"></button></td>
-	<td><button class="button" id="bx26" onclick="clicked(this.id)"></button></td>
-	<td><button class="button" id="bx27" onclick="clicked(this.id)"></button></td>
+    <td><div class="button aqua" id="bx20"><div class="glare"></div></div></td>
+    <td><div class="button aqua" id="bx21"><div class="glare"></div></div></td>
+    <td><div class="button aqua" id="bx22"><div class="glare"></div></div></td>
+    <td><div class="button aqua" id="bx23"><div class="glare"></div></div></td>
+    <td><div class="button aqua" id="bx24"><div class="glare"></div></div></td>
+    <td><div class="button aqua" id="bx25"><div class="glare"></div></div></td>
+    <td><div class="button aqua" id="bx26"><div class="glare"></div></div></td>
+    <td><div class="button aqua" id="bx27"><div class="glare"></div></div></td>
   </tr>
   <tr>
-    <td><button class="button" id="bx30" onclick="clicked(this.id)"></button></td>
-	<td><button class="button" id="bx31" onclick="clicked(this.id)"></button></td>
-	<td><button class="button" id="bx32" onclick="clicked(this.id)"></button></td>
-	<td><button class="button" id="bx33" onclick="clicked(this.id)"></button></td>
-	<td><button class="button" id="bx34" onclick="clicked(this.id)"></button></td>
-	<td><button class="button" id="bx35" onclick="clicked(this.id)"></button></td>
-	<td><button class="button" id="bx36" onclick="clicked(this.id)"></button></td>
-	<td><button class="button" id="bx37" onclick="clicked(this.id)"></button></td>
+    <td><div class="button aqua" id="bx30"><div class="glare"></div></div></td>
+    <td><div class="button aqua" id="bx31"><div class="glare"></div></div></td>
+    <td><div class="button aqua" id="bx32"><div class="glare"></div></div></td>
+    <td><div class="button aqua" id="bx33"><div class="glare"></div></div></td>
+    <td><div class="button aqua" id="bx34"><div class="glare"></div></div></td>
+    <td><div class="button aqua" id="bx35"><div class="glare"></div></div></td>
+    <td><div class="button aqua" id="bx36"><div class="glare"></div></div></td>
+    <td><div class="button aqua" id="bx37"><div class="glare"></div></div></td>
   </tr>
   <tr>
-    <td><button class="button" id="bx40" onclick="clicked(this.id)"></button></td>
-	<td><button class="button" id="bx41" onclick="clicked(this.id)"></button></td>
-	<td><button class="button" id="bx42" onclick="clicked(this.id)"></button></td>
-	<td><button class="button" id="bx43" onclick="clicked(this.id)"></button></td>
-	<td><button class="button" id="bx44" onclick="clicked(this.id)"></button></td>
-	<td><button class="button" id="bx45" onclick="clicked(this.id)"></button></td>
-	<td><button class="button" id="bx46" onclick="clicked(this.id)"></button></td>
-	<td><button class="button" id="bx47" onclick="clicked(this.id)"></button></td>
+    <td><div class="button aqua" id="bx40"><div class="glare"></div></div></td>
+    <td><div class="button aqua" id="bx41"><div class="glare"></div></div></td>
+    <td><div class="button aqua" id="bx42"><div class="glare"></div></div></td>
+    <td><div class="button aqua" id="bx43"><div class="glare"></div></div></td>
+    <td><div class="button aqua" id="bx44"><div class="glare"></div></div></td>
+    <td><div class="button aqua" id="bx45"><div class="glare"></div></div></td>
+    <td><div class="button aqua" id="bx46"><div class="glare"></div></div></td>
+    <td><div class="button aqua" id="bx47"><div class="glare"></div></div></td>
   </tr>
   <tr>
-    <td><button class="button" id="bx50" onclick="clicked(this.id)"></button></td>
-	<td><button class="button" id="bx51" onclick="clicked(this.id)"></button></td>
-	<td><button class="button" id="bx52" onclick="clicked(this.id)"></button></td>
-	<td><button class="button" id="bx53" onclick="clicked(this.id)"></button></td>
-	<td><button class="button" id="bx54" onclick="clicked(this.id)"></button></td>
-	<td><button class="button" id="bx55" onclick="clicked(this.id)"></button></td>
-	<td><button class="button" id="bx56" onclick="clicked(this.id)"></button></td>
-	<td><button class="button" id="bx57" onclick="clicked(this.id)"></button></td>
+    <td><div class="button aqua" id="bx50"><div class="glare"></div></div></td>
+    <td><div class="button aqua" id="bx51"><div class="glare"></div></div></td>
+    <td><div class="button aqua" id="bx52"><div class="glare"></div></div></td>
+    <td><div class="button aqua" id="bx53"><div class="glare"></div></div></td>
+    <td><div class="button aqua" id="bx54"><div class="glare"></div></div></td>
+    <td><div class="button aqua" id="bx55"><div class="glare"></div></div></td>
+    <td><div class="button aqua" id="bx56"><div class="glare"></div></div></td>
+    <td><div class="button aqua" id="bx57"><div class="glare"></div></div></td>
   </tr>
   <tr>
-    <td><button class="button" id="bx60" onclick="clicked(this.id)"></button></td>
-	<td><button class="button" id="bx61" onclick="clicked(this.id)"></button></td>
-	<td><button class="button" id="bx62" onclick="clicked(this.id)"></button></td>
-	<td><button class="button" id="bx63" onclick="clicked(this.id)"></button></td>
-	<td><button class="button" id="bx64" onclick="clicked(this.id)"></button></td>
-	<td><button class="button" id="bx65" onclick="clicked(this.id)"></button></td>
-	<td><button class="button" id="bx66" onclick="clicked(this.id)"></button></td>
-	<td><button class="button" id="bx67" onclick="clicked(this.id)"></button></td>
+    <td><div class="button aqua" id="bx60"><div class="glare"></div></div></td>
+    <td><div class="button aqua" id="bx61"><div class="glare"></div></div></td>
+    <td><div class="button aqua" id="bx62"><div class="glare"></div></div></td>
+    <td><div class="button aqua" id="bx63"><div class="glare"></div></div></td>
+    <td><div class="button aqua" id="bx64"><div class="glare"></div></div></td>
+    <td><div class="button aqua" id="bx65"><div class="glare"></div></div></td>
+    <td><div class="button aqua" id="bx66"><div class="glare"></div></div></td>
+    <td><div class="button aqua" id="bx67"><div class="glare"></div></div></td>
   </tr>
   <tr>
-    <td><button class="button" id="bx70" onclick="clicked(this.id)"></button></td>
-	<td><button class="button" id="bx71" onclick="clicked(this.id)"></button></td>
-	<td><button class="button" id="bx72" onclick="clicked(this.id)"></button></td>
-	<td><button class="button" id="bx73" onclick="clicked(this.id)"></button></td>
-	<td><button class="button" id="bx74" onclick="clicked(this.id)"></button></td>
-	<td><button class="button" id="bx75" onclick="clicked(this.id)"></button></td>
-	<td><button class="button" id="bx76" onclick="clicked(this.id)"></button></td>
-	<td><button class="button" id="bx77" onclick="clicked(this.id)"></button></td>
+    <td><div class="button aqua" id="bx70"><div class="glare"></div></div></td>
+    <td><div class="button aqua" id="bx71"><div class="glare"></div></div></td>
+    <td><div class="button aqua" id="bx72"><div class="glare"></div></div></td>
+    <td><div class="button aqua" id="bx73"><div class="glare"></div></div></td>
+    <td><div class="button aqua" id="bx74"><div class="glare"></div></div></td>
+    <td><div class="button aqua" id="bx75"><div class="glare"></div></div></td>
+    <td><div class="button aqua" id="bx76"><div class="glare"></div></div></td>
+    <td><div class="button aqua" id="bx77"><div class="glare"></div></div></td>
   </tr>
 </table>
 

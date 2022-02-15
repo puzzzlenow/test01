@@ -141,8 +141,14 @@ function initial(){
         items[x][y]= "o";
       }
       //CHANGE COLOR
-	  document.getElementById("bx" +x +y).style.background = getColour(x,y);
+	  //document.getElementById("bx" +x +y).style.background = getColour(x,y);
 	  //document.getElementById("bx" +x +y).style.border-bottom-color = getBorder(x,y);
+	  
+      var col1 = getColour(x,y,1); //'rgba(0,0,0,0.8)';
+      var col2 = getColour(x,y,2); //'rgba(0,0,0,0.8)';
+      var css = '-webkit-gradient(linear,20% 10%, 80% 90%, color-stop(0.30, '+ col1 +' ),color-stop(0.50, ' + col2 + '))';
+      $('#bx'+x+''+y).css('background-image', css);
+	  
     }
   }
 
@@ -153,9 +159,16 @@ function initial(){
       for(var y=0; y <=7; y++){
         if (itemsF[x][y] == "x") {
           items[x][y] = "xx";
+		  
           //CHANGE COLOR
-          document.getElementById("bx" +x +y).style.background = getColour(x,y);
+          //document.getElementById("bx" +x +y).style.background = getColour(x,y);
 		  //document.getElementById("bx" +x +y).style.border-bottom-color = getBorder(x,y);
+		  
+          var col1 = getColour(x,y,1); //'rgba(0,0,0,0.8)';
+          var col2 = getColour(x,y,2); //'rgba(0,0,0,0.8)';
+          var css = '-webkit-gradient(linear,20% 10%, 80% 90%, color-stop(0.30, '+ col1 +' ),color-stop(0.50, ' + col2 + '))';
+          $('#bx'+x+''+y).css('background-image', css);
+		  
         }
       }
     }
@@ -289,28 +302,29 @@ function reset(){
 /***
 ** Translate the co-ordinate into colour in RGB format
 ***/
-function getColour(x,y) {
+
+function getColour(x,y,col) {
   var type = items[x][y];
   //alert(type);
   
   if (type == ".") {
 //space -------------
-    return rgb_space;
+    return (col == 1) ? rgb_space : rgb_space2;
   }else if (type == "O") {
 //off -------------
-    return rgb_off;
+    return (col == 1) ? rgb_off : rgb_off2;
   }else if (type == "o") {
 //on -------------
-    return rgb_on;
+    return (col == 1) ? rgb_on : rgb_on2;
   }else if (type == "x") {
 //dest -------------
-    return rgb_dest;
+    return (col == 1) ? rgb_dest : rgb_dest2;
   }else if (type == "*") {
 //wall -------------
-    return rgb_wall;
+    return (col == 1) ? rgb_wall : rgb_wall2;
   }else {
 //done -------------
-    return rgb_done;
+    return (col == 1) ? rgb_done : rgb_done2;
   }
 }
 
