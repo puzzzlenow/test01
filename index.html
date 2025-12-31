@@ -17,6 +17,7 @@
 <script src="js/keyboard-listen.js"></script>
 <script src="js/gamelevels.js"></script>
 <script src="js/core.js"></script>
+<script src="js/saver.js"></script> <!-- ADDED SAVER -->
 <script type="text/javascript">
 
 //toggle hidden/visible of div
@@ -27,19 +28,19 @@
   }
 
   //colour of each state
-  var rgb_space  = "rgb(110, 110, 110, 0)";
-  var rgb_off    = "rgb(240, 240, 240, 0.8)";
-  var rgb_on     = "rgb(130, 240, 255, 1.2)";
-  var rgb_dest   = "rgb(155, 155, 155, 1.2)";
-  var rgb_wall   = "rgb(50, 50, 0, 0)";
-  var rgb_done   = "rgb(255, 255, 80, 0.8)";
-  
-  var rgb_space2 = "rgb(89, 89, 89, 1)";
-  var rgb_off2   = "rgb(240, 240, 240, 0.8)";
-  var rgb_on2    = "rgb(130, 240, 255, 0.8)";
-  var rgb_dest2  = "rgb(175, 175, 175, 0.8)";
-  var rgb_wall2  = "rgb(38, 38, 38, 1)";
-  var rgb_done2  = "rgb(220, 220, 60, 0.8)";
+  var rgb_space ="rgb(100, 100, 100, 1) 40%";
+  var rgb_off =  "rgb(110, 150, 150, 0.8) 5%";
+  var rgb_on =   "rgb(255, 240, 255, 1) 5%";
+  var rgb_dest = "rgb(160, 160, 160, 1) 10%";
+  var rgb_wall = "rgb(40, 40, 40, 0.95) 50%";
+  var rgb_done = "rgb(255, 255, 255, 1) 10%";
+
+  var rgb_space2 ="rgb(110, 110, 110, 1) 80%";
+  var rgb_off2 =  "rgb(240, 240, 240, 0.8) 70%";
+  var rgb_on2 =   "rgb(130, 240, 255, 1) 60%";
+  var rgb_dest2 = "rgb(160, 160, 160, 1) 80%";
+  var rgb_wall2 = "rgb(45, 30, 0, 1) 95%";
+  var rgb_done2 = "rgb(220, 220, 60, 1) 60%";
   
   var items = matrix( 8, 8, ".");   //combine
   var itemsF = matrix( 8, 8, ".");  //walls and targets
@@ -57,20 +58,67 @@
   var importstr = "";
   //importstr = "OO......OO......OO****..OO*xxxx...*xxxx...*.***...*.......*.....";
   
-  Date.prototype.getJulian = function() {
-    return Math.floor((this / 86400000) - (this.getTimezoneOffset() / 1440) + 2440587.5);
-  }
-  
-  var today = new Date();
-  var julian = today.getJulian(); //get julian date
-  
-  var currentlevel = "";
-  
-  var todaylevel = julian % (levels.length - 1);
-  //document.getElementById("areatodaylevel").innerHTML = todaylevel;
-  
   //set the chess board with decided game level flat matrix
-  importstr=levels[todaylevel][0];
+  importstr = levels[todaylevel][0];
+
+
+    // SHOW SOLUTION LOGIC
+    async function showSolution() {
+      let btn = document.getElementById("btnShowSol");
+      let msg = document.getElementById("areamsg");
+
+      // Hardcoded credentials for now as per solver.html
+      let url = "https://bmxnwzuomsvgrwmmvouo.supabase.co";
+      let key = "sb_publishable_YpR-0-wQ7uyPDK4zwQXlMg_HJ7ppOJ3";
+
+      let levelName = currentlevel;
+      if (!levelName || levelName === "") {
+        let sel = document.getElementById("selectLevel");
+        if (sel.selectedIndex > 0) {
+          levelName = sel.options[sel.selectedIndex].text;
+        } else {
+          levelName = todaylevel;
+        }
+      }
+
+      try {
+        btn.disabled = true;
+        msg.innerHTML = "Fetching solution...";
+
+        let saver = new SolutionSaver(url, key);
+        let res = await saver.get(levelName);
+
+        if (res.success) {
+          let sol = res.data;
+          msg.innerHTML = "Solution Found! Playing...";
+          await animateSolution(sol.path);
+          msg.innerHTML = "Solution Done.";
+        } else {
+          msg.innerHTML = "No solution found.";
+        }
+
+      } catch (e) {
+        console.error(e);
+        msg.innerHTML = "Error: " + e.message;
+      } finally {
+        btn.disabled = false;
+      }
+    }
+
+
+    async function animateSolution(path) {
+      // Reset board first if needed? Maybe best to run from current state if user reset.
+      // For safety, let's just run moves.
+
+      for (let char of path) {
+        if (char === 'U') up();
+        else if (char === 'D') down();
+        else if (char === 'L') left();
+        else if (char === 'R') right();
+
+        await new Promise(r => setTimeout(r, 300));
+      }
+    }
 
 </script>
 
@@ -191,11 +239,20 @@ Steps: <a id="areaSteps">.</a>
 <a id="areamsg"></a>
 <table style="width:px" cellspacing="0" cellpadding="0" >
   <tr>
+    <td>&nbsp</td>
+  </tr>
+  <tr>
     <td><button style="height:18px; font-size: 70%" type="button" id="btnReset" onclick="initAll();">Retry</button></td>
     <td>&nbsp&nbsp</td>
-    <td>  <select class="custom-select" id="selectLevel" onchange="selectChanged(this);initAll();" ><option>Choose a Level</option></select>  </td>
+    <td>  <select class="custom-select" id="selectLevel" onchange="onLevelChange(this);" ><option>Choose a Level</option></select>  </td>
     <td></td>
     <td></td>
+  </tr>
+  <tr>
+    <td>&nbsp</td>
+  </tr>
+  <tr>
+    <td><button style="height:18px; font-size: 70%" type="button" id="btnShowSol" onclick="showSolution();">Show Solution</button></td>
   </tr>
 </table>
 </div>
@@ -203,7 +260,7 @@ Steps: <a id="areaSteps">.</a>
 
 <br>
 <br>
-<button style="height:18px; font-size: 70%" type="button" id="btnDebug1" onclick="retrieveCookiesDebug();">DebugCheckCookies</button>
+<!--  <button style="height:18px; font-size: 70%" type="button" id="btnDebug1" onclick="retrieveCookiesDebug();">DebugCheckCookies</button> -->
 
 <div id="div-may-hide-02">
 <br>
